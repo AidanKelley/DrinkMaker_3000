@@ -1,11 +1,11 @@
 #include "Ingredient.h"
 #include <iostream>
 
-Ingredient::Ingredient(uint8_t sugar_content, uint16_t est_remaining, uint8_t density, const char* p_name, uint8_t index)
-: m_sugar_content(sugar_content)
+Ingredient::Ingredient(uint8_t alc_content, uint16_t est_remaining, uint8_t density, const char* p_name, uint8_t index)
+: m_alc_content(alc_content)
 , m_est_remaining(est_remaining)
 , m_density(density)
-, m_index(index)
+, m_bay(index)
 {
   for(int8_t i = 0; i < 11; i++)
   {
@@ -27,14 +27,14 @@ void Ingredient::calc_floats()
 {
   m_density_float = m_density / 100.0;
   
-  float density_ratio = m_density_float / 0.789f; //the density of sugar, of course
+  float density_ratio = m_density_float / 0.789f; //the density of alc, of course
   
-  float sugar_content_volume = m_sugar_content / 200.0;
+  float alc_content_volume = m_alc_content / 200.0;
   
-  float sugar_content_volume_ratio = (1 - sugar_content_volume) / sugar_content_volume;
+  float alc_content_volume_ratio = (1 - alc_content_volume) / alc_content_volume;
   
-  // mass ratio of sugar
-  m_sugar_ratio = 1 / (1 + sugar_content_volume_ratio * density_ratio);
+  // mass ratio of alc
+  m_alc_ratio = 1 / (1 + alc_content_volume_ratio * density_ratio);
 }
 
 //get the weight in g * 10 from a volume in ml * 10
@@ -43,14 +43,14 @@ uint16_t Ingredient::get_weight(uint16_t volume)
   return (uint16_t) (volume * m_density_float + 0.5);
 }
 
-uint16_t Ingredient::get_sugar(uint16_t weight)
+uint16_t Ingredient::get_alc(uint16_t weight)
 {
-  return (uint16_t) (m_sugar_ratio * weight + 0.5);
+  return (uint16_t) (m_alc_ratio * weight + 0.5);
 }
 
-void Ingredient::set_sugar_content(uint8_t content)
+void Ingredient::set_alc_content(uint8_t content)
 {
-  m_sugar_content = content;
+  m_alc_content = content;
   calc_floats();
 }
 
@@ -67,9 +67,14 @@ void Ingredient::set_density(uint8_t density)
   calc_floats();
 }
 
+void set_bay(uint8_t bay)
+{
+  
+}
+
 void Ingredient::get_data(uint8_t p_data[16])
 {
-  p_data[0] = m_sugar_content;
+  p_data[0] = m_alc_content;
   p_data[1] = (uint8_t) m_est_remaining;
   p_data[2] = (uint8_t) (m_est_remaining >> 8);
   p_data[3] = m_density;
@@ -78,5 +83,10 @@ void Ingredient::get_data(uint8_t p_data[16])
   {
     p_data[i + 4] = (uint8_t) name[i];
   }
-  p_data[15] = m_index;
+  p_data[15] = m_bay;
+}
+
+uint8_t Ingredient::get_size()
+{
+  return 16;
 }

@@ -7,7 +7,7 @@
 
 TEST_CASE("Ingredients test", "[Ingredient]")
 {
-  Ingredient yum(80, 11340, 97, "yum", 1);
+  Ingredient yum(80, 11340, 97, "vodka", 1);
   
   
   SECTION("save")
@@ -18,11 +18,11 @@ TEST_CASE("Ingredients test", "[Ingredient]")
     
     Ingredient yum2(p_data);
     
-    REQUIRE(yum.m_sugar_content == yum2.m_sugar_content);
+    REQUIRE(yum.m_alc_content == yum2.m_alc_content);
     REQUIRE(yum.m_est_remaining == yum2.m_est_remaining);
     REQUIRE(yum.m_density == yum2.m_density);
     REQUIRE(strcmp(yum.name, yum2.name) == 0);
-    REQUIRE(yum.m_index == yum2.m_index);
+    REQUIRE(yum.m_bay == yum2.m_bay);
   }
   
   SECTION("calculate weight")
@@ -31,10 +31,10 @@ TEST_CASE("Ingredients test", "[Ingredient]")
     REQUIRE(yum.get_weight(1000) == 970);
   }
   
-  SECTION("calculate sugar mass")
+  SECTION("calculate alc mass")
   {
-    REQUIRE(yum.get_sugar(1000) == 352);
-    REQUIRE(yum.get_sugar(286) == 101);
+    REQUIRE(yum.get_alc(1000) == 352);
+    REQUIRE(yum.get_alc(286) == 101);
   }
   
   SECTION("extreme values")
@@ -42,7 +42,7 @@ TEST_CASE("Ingredients test", "[Ingredient]")
     Ingredient extreme(0, 0, 0, "", 0);
     
     REQUIRE(extreme.get_weight(100) == 0);
-    REQUIRE(extreme.get_sugar(100) == 0);
+    REQUIRE(extreme.get_alc(100) == 0);
   }
   
 }
