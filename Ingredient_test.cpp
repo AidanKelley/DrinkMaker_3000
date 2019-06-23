@@ -33,8 +33,8 @@ TEST_CASE("Ingredients test", "[Ingredient]")
   
   SECTION("calculate alc mass")
   {
-    REQUIRE(yum.get_alc(1000) == 352);
-    REQUIRE(yum.get_alc(286) == 101);
+    REQUIRE(yum.get_alc_from_weight(1000) == 352);
+    REQUIRE(yum.get_alc_from_weight(286) == 101);
   }
   
   SECTION("extreme values")
@@ -42,7 +42,7 @@ TEST_CASE("Ingredients test", "[Ingredient]")
     Ingredient extreme(0, 0, 0, "", 0);
     
     REQUIRE(extreme.get_weight(100) == 0);
-    REQUIRE(extreme.get_alc(100) == 0);
+    REQUIRE(extreme.get_alc_from_weight(100) == 0);
   }
   
 }

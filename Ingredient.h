@@ -7,13 +7,13 @@ class Ingredient {
 public:
   Ingredient(uint8_t alc_content, uint16_t est_remaining, uint8_t density, const char* name, uint8_t index);
 
-  Ingredient(uint8_t p_data[16]);
+  Ingredient(const uint8_t p_data[16]);
   
   //get the weight in g * 10 from a volume in ml * 10
   uint16_t get_weight(uint16_t volume);
 
   //get alc in g * 10 from a weight in g * 10
-  uint16_t get_alc(uint16_t weight);
+  uint16_t get_alc_from_weight(uint16_t weight);
   
   // 0 - 200
   void set_alc_content(uint8_t content);
@@ -26,7 +26,7 @@ public:
   
   void set_bay(uint8_t bay);
   
-  uint8_t get_size();
+  uint8_t size();
 
   //gets the data so this can be saved
   void get_data(uint8_t data[16]);

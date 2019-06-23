@@ -1,4 +1,6 @@
 #include "Ingredient.h"
+
+// TODO:: temporary
 #include <iostream>
 
 Ingredient::Ingredient(uint8_t alc_content, uint16_t est_remaining, uint8_t density, const char* p_name, uint8_t index)
@@ -16,7 +18,7 @@ Ingredient::Ingredient(uint8_t alc_content, uint16_t est_remaining, uint8_t dens
   calc_floats();
 }
 
-Ingredient::Ingredient(uint8_t p_data[4])
+Ingredient::Ingredient(const uint8_t p_data[4])
 :Ingredient(p_data[0],
             (((uint16_t) p_data[2]) << 8) | (uint16_t) p_data[1],
             p_data[3],
@@ -43,7 +45,7 @@ uint16_t Ingredient::get_weight(uint16_t volume)
   return (uint16_t) (volume * m_density_float + 0.5);
 }
 
-uint16_t Ingredient::get_alc(uint16_t weight)
+uint16_t Ingredient::get_alc_from_weight(uint16_t weight)
 {
   return (uint16_t) (m_alc_ratio * weight + 0.5);
 }
@@ -86,7 +88,7 @@ void Ingredient::get_data(uint8_t p_data[16])
   p_data[15] = m_bay;
 }
 
-uint8_t Ingredient::get_size()
+uint8_t Ingredient::size()
 {
   return 16;
 }
